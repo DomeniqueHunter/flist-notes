@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup
 import flist
 from flist.Note import Note
+import json
 
 
 def get_inbox(offset:int=0, amount:int=10):
@@ -34,8 +35,23 @@ def get_note_text(note_id:int):
     return content.text
 
 
-def send_note():
-    pass
+def send_note(dest:str, source:str, title:str, text:str):
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    note_data = {
+            'title': title,
+            'message': text,
+            'dest': dest,
+            'source': flist.characters.character_id(source),
+            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net'), 
+        }
+    
+    session = flist.session()
+    print()
+    print(session.cookies.get_dict())
+    print(note_data)
+    print(json.dumps(note_data))
+    print()
+    return session.post('https://www.f-list.net/json/notes-send.json', headers=headers, data=json.dumps(note_data))
 
 
 def delete_note():

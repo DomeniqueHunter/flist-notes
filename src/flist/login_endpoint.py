@@ -9,10 +9,11 @@ def login(username, password):
     soup = BeautifulSoup(request.text, 'html.parser')
     
     # get csrf
-    csrf = soup.find('input', {'name': 'csrf_token'})['value']
+    csrf_token = soup.find('input', {'name': 'csrf_token'})['value']
+    
     
     # login payload
-    payload = {'csrf_token': csrf, 'username': username, 'password': password}
+    payload = {'csrf_token': csrf_token, 'username': username, 'password': password}
     
     global _session
     _session = requests.session()
@@ -24,3 +25,4 @@ def login(username, password):
 
 def session():
     return _session
+
