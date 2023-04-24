@@ -12,7 +12,7 @@ def get_inbox(offset:int=0, amount:int=10):
     for note in notes_json:
         note_object = Note(note['note_id'], note['title'], note['source_name'], note['dest_name'], note['folder_id'], note['datetime_sent'])
         notes_list.append(note_object)
-        print(note_object)        
+        # print(note_object)        
     
     return notes_list
 
@@ -36,13 +36,19 @@ def get_note_text(note_id:int):
 
 
 def send_note(dest:str, source:str, title:str, text:str):
-    headers = {"Content-Type": "application/json; charset=utf-8"}
+    headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "*/*",
+            "Connection": "keep-alive",
+            "Host": "www.f-list.net",
+        }
+    
     note_data = {
+            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net/read_notes.php'),
             'title': title,
             'message': text,
             'dest': dest,
             'source': flist.characters.character_id(source),
-            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net'), 
         }
     
     session = flist.session()
@@ -51,7 +57,8 @@ def send_note(dest:str, source:str, title:str, text:str):
     print(note_data)
     print(json.dumps(note_data))
     print()
-    return session.post('https://www.f-list.net/json/notes-send.json', headers=headers, data=json.dumps(note_data))
+    
+    return session.post('https://www.f-list.net/json/notes-send.json', headers=headers, data=note_data)
 
 
 def delete_note():

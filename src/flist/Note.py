@@ -3,8 +3,8 @@ import flist
 
 class Note:
     
-    def __init__(self, id, title, sender, receiver, folder, date):
-        self.note_id = id 
+    def __init__(self, _id, title, sender, receiver, folder, date):
+        self.note_id = _id 
         self.title = title
         self.sender = sender 
         self.receiver = receiver
