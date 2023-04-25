@@ -13,7 +13,7 @@ class Note:
         self.date = date
         
     def show(self):
-        return flist.get_note_text(self.note_id)
+        return flist.notes.get_note_text(self.note_id)
 
     def __repr__(self):
         return f"Title:'{self.title}' ({self.note_id}) from:'{self.sender}' to:'{self.receiver}' ({self.date})"

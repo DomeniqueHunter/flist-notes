@@ -4,16 +4,16 @@ import flist
 
 
 def main():
-    request = flist.login(config.USER, config.PASSWORD)
+    request = flist.login.login(config.USER, config.PASSWORD)
     # print(request.content)
     
     flist.characters.find_characters(request.content.decode('utf-8'))
     
-    notes = flist.get_inbox()
+    notes = flist.notes.get_inbox()
     print(notes[0])
     print(notes[0].show())
     
-    status = flist.send_note(dest, source, title, text)
+    status = flist.notes.send_note(dest, source, title, text)
     print(status, status.text)
     
     status = flist.notes.delete_note([notes[0].note_id])
