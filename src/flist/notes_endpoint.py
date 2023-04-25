@@ -72,3 +72,23 @@ def delete_note(note_ids:list):
     session = flist.session()
     
     return session.post('https://www.f-list.net/json/notes-trash.json', headers=headers, data=note_data)
+
+
+def empty_trash():
+    headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "*/*",
+            "Connection": "keep-alive",
+            "Host": "www.f-list.net",
+        }
+    
+    note_data = {
+            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net'),
+        }
+    
+    session = flist.session()
+    
+    return session.post('https://www.f-list.net/json/notes-emptytrash.json', headers=headers, data=note_data)
+
+
+
