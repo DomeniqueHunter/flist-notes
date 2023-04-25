@@ -17,8 +17,16 @@ def get_inbox(offset:int=0, amount:int=10):
     return notes_list
 
     
-def get_outbox(offset:int, amount:int):
-    return get_notes(offset, amount, 2)    
+def get_outbox(offset:int=0, amount:int=10):
+    notes_json =  get_notes(offset, amount, 2)['notes']
+    notes_list = []
+    
+    for note in notes_json:
+        note_object = Note(note['note_id'], note['title'], note['source_name'], note['dest_name'], note['folder_id'], note['datetime_sent'])
+        notes_list.append(note_object)
+        # print(note_object)        
+    
+    return notes_list
 
     
 def get_notes(offset:int, amount:int, box:int):
