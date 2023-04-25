@@ -15,6 +15,13 @@ class Note:
     def show(self):
         return flist.notes.get_note_text(self.note_id)
     
+    def note(self):
+        note = f"\n{self}\n"
+        note += "-------------------------------------------\n"
+        note += flist.notes.get_note_text(self.note_id) + "\n"
+        note += "-------------------------------------------\n\n"
+        return note
+    
     def delete(self):
         return flist.notes.delete_note([self.note_id])
     
@@ -24,4 +31,8 @@ class Note:
     def __repr__(self):
         return f"Title:'{self.title}' ({self.note_id}) from:'{self.sender}' to:'{self.receiver}' ({self.date})"
     
-    # TODO: Save messages
+    def save(self):
+        # save note to file
+        note_file = f'notes/{self.folder}/{self.note_id}-{self.sender}-{self.receiver}.note' 
+        with open(note_file, 'w') as f:
+            pass
