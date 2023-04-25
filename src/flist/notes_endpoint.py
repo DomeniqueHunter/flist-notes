@@ -44,7 +44,7 @@ def send_note(dest:str, source:str, title:str, text:str):
         }
     
     note_data = {
-            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net/read_notes.php'),
+            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net'),
             'title': title,
             'message': text,
             'dest': dest,
@@ -52,14 +52,23 @@ def send_note(dest:str, source:str, title:str, text:str):
         }
     
     session = flist.session()
-    print()
-    print(session.cookies.get_dict())
-    print(note_data)
-    print(json.dumps(note_data))
-    print()
     
     return session.post('https://www.f-list.net/json/notes-send.json', headers=headers, data=note_data)
 
 
-def delete_note():
-    pass
+def delete_note(note_ids:list):
+    headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "*/*",
+            "Connection": "keep-alive",
+            "Host": "www.f-list.net",
+        }
+    
+    note_data = {
+            'csrf_token': flist.csrf.get_csrf_token('https://www.f-list.net'),
+            'notes[]': note_ids,
+        }
+    
+    session = flist.session()
+    
+    return session.post('https://www.f-list.net/json/notes-trash.json', headers=headers, data=note_data)
