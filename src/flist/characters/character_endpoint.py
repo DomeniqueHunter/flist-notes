@@ -1,6 +1,7 @@
 
 import flist
 import re
+from .Character import Character
 from bs4 import BeautifulSoup
 
 
@@ -15,18 +16,22 @@ def get_character(character_name:str):
     charname = soup.find('span', {'class', 'charname'}).text
     statbox = soup.find('div', {'class', 'statbox'})
     
-    raw_text = str((statbox))
-    
-    # print(raw_text.replace('\n', '').replace('\r', '').replace('\t', ' ').replace('<br/>', '\n'))
+    raw_text = str((statbox))    
+    raw_text = raw_text.replace('\n', '').replace('\r', '').replace('\t', ' ').replace('<br/>', '\n')
     
     regex = '<span class="taglabel">([a-zA-Z0-9 \/]+)<\/span>:[ ]+([a-zA-Z0-9 \/,._-]+)'
     pattern = re.compile(regex)
     
     found = re.findall(pattern, raw_text)
     
+    character = Character(charname)
+    
+    print(charname)
     for key, value in found:
-        print(key, f"'{value}'")
+        # print(key, f"'{value}'")
+        character.set_attribute(key, value)
         
+    return character
         
         
     
