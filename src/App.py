@@ -40,7 +40,7 @@ def main():
     request = flist.login.login(config.USER, config.PASSWORD)
     
     # get characters    
-    flist.characters.find_characters(request.content.decode('utf-8'))
+    flist.characters.characters.find_characters(request.content.decode('utf-8'))
     
     print('h: help\nq: quit')
     while True:

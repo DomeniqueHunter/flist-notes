@@ -1,8 +1,7 @@
 
 from bs4 import BeautifulSoup
 import flist
-from flist.Note import Note
-import json
+from .Note import Note
 
 
 def get_inbox(offset:int=0, amount:int=10):
@@ -56,7 +55,7 @@ def send_note(dest:str, source:str, title:str, text:str):
             'title': title,
             'message': text,
             'dest': dest,
-            'source': flist.characters.character_id(source),
+            'source': flist.characters.characters.character_id(source),
         }
     
     session = flist.session()
