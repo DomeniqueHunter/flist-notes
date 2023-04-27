@@ -12,26 +12,29 @@ def get_character(character_name:str):
     session = flist.session()
     request = session.get(url)
     soup = BeautifulSoup(request.text, 'html.parser')
-    
-    charname = soup.find('span', {'class', 'charname'}).text
-    statbox = soup.find('div', {'class', 'statbox'})
-    
-    raw_text = str((statbox))    
-    raw_text = raw_text.replace('\n', '').replace('\r', '').replace('\t', ' ').replace('<br/>', '\n')
-    
-    regex = '<span class="taglabel">([a-zA-Z0-9 \/]+)<\/span>:[ ]+([a-zA-Z0-9 \/,._-]+)'
-    pattern = re.compile(regex)
-    
-    found = re.findall(pattern, raw_text)
-    
-    character = Character(charname)
-    
-    print(charname)
-    for key, value in found:
-        # print(key, f"'{value}'")
-        character.set_attribute(key, value)
+    try:
+        charname = soup.find('span', {'class', 'charname'}).text
+        statbox = soup.find('div', {'class', 'statbox'})
         
-    return character
+        raw_text = str((statbox))    
+        raw_text = raw_text.replace('\n', '').replace('\r', '').replace('\t', ' ').replace('<br/>', '\n')
+        
+        regex = '<span class="taglabel">([a-zA-Z0-9 \/]+)<\/span>:[ ]+([a-zA-Z0-9 \/,._-]+)'
+        pattern = re.compile(regex)
+        
+        found = re.findall(pattern, raw_text)
+        
+        character = Character(charname)
+        
+        print(charname)
+        for key, value in found:
+            # print(key, f"'{value}'")
+            character.set_attribute(key, value)
+            
+        return character
+    
+    except:
+        return None
         
         
     
