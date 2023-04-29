@@ -6,50 +6,25 @@ class Character:
     
     def __init__(self, name:str):
         self.name = name
-        self.age = None
-        self.gender = None 
-        self.orientation = None
-        self.species = None 
-        self.preference = None 
-        self.dom_sub = None
-        self.created = None
-        self.last_updated = None
-        self.views = None
-        self.bookmars = None 
         
     def set_attribute(self, attr, value):
-        if attr == 'Age':
-            self.age = value
+        try:
+            # print(f'adding: {attr} -> {value}')
+            self.__dict__[attr] = value
         
-        elif attr == 'Gender':
-            self.gender = value
+        except Exception as e:
+            print(e)
+            exit()
             
-        elif attr == 'Orientation':
-            self.orientation = value
-            
-        elif attr == 'Species':
-            self.species = value
+    def get_attribute(self, attr):
+        return self._get(attr)
+    
+    def _get(self, attr):
+        if attr.lower().replace(' ', '_') in self.__dict__:
+            return self.__dict__[attr.lower().replace(' ', '_')]
         
-        elif attr == 'Dom/Sub':
-            self.dom_sub = value
-            
-        elif attr == 'created':
-            self.created = value
-            
-        elif attr == 'Furry Preference':
-            self.preference = value
-            
-        elif attr == 'Last updated':
-            self.last_updated = value 
-        
-        elif attr == 'Views':
-            self.views = value
-            
-        elif attr == 'Bookmars':
-            self.bookmarks = value
-            
-        elif attr == 'Timezone':
-            self.timezone = value
+        else:
+            return None
             
             
     def __repr__(self):
