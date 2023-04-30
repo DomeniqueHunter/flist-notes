@@ -5,7 +5,10 @@ from .Note import Note
 
 
 def get_inbox(offset:int=0, amount:int=10):
-    notes_json = get_notes(offset, amount, 1)['notes']
+    notes_data = get_notes(offset, amount, 1)
+    total_notes = notes_data['total']
+    notes_json = notes_data['notes']
+    
     notes_list = []
     
     for note in notes_json:
@@ -13,11 +16,14 @@ def get_inbox(offset:int=0, amount:int=10):
         notes_list.append(note_object)
         # print(note_object)        
     
-    return notes_list
+    return notes_list, total_notes
 
     
 def get_outbox(offset:int=0, amount:int=10):
-    notes_json =  get_notes(offset, amount, 2)['notes']
+    notes_data = get_notes(offset, amount, 2)
+    total_notes = notes_data['total']
+    notes_json = notes_data['notes']
+    
     notes_list = []
     
     for note in notes_json:
@@ -25,7 +31,7 @@ def get_outbox(offset:int=0, amount:int=10):
         notes_list.append(note_object)
         # print(note_object)        
     
-    return notes_list
+    return notes_list, total_notes
 
     
 def get_notes(offset:int, amount:int, box:int):

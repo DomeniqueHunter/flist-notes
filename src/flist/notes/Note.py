@@ -29,10 +29,8 @@ class Note:
         return flist.notes.send_note(self.sender, self.receiver, f"re:{self.title}", message)
 
     def __repr__(self):
-        return f"Title:'{self.title}' ({self.note_id}) from:'{self.sender}' to:'{self.receiver}' ({self.date})"
+        return f"Title:'{self.title}' ({self.note_id}) from:'{self.sender}' to:'{self.receiver}'"
     
-    def save(self):
-        # save note to file
-        note_file = f'notes/{self.folder}/{self.note_id}-{self.sender}-{self.receiver}.note' 
-        with open(note_file, 'w') as f:
-            pass
+    def __eq__(self, other):
+        return self.note_id == other.note_id
+    
