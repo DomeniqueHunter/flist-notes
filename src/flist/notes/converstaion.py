@@ -12,9 +12,20 @@ def add_to_dict(_dict:dict, key:str, value):
         _dict[key].append(value)
 
 
-def get_in_out_boxex(amount=100):
-    in_notes = flist.notes.get_inbox(amount=amount)
-    out_notes = flist.notes.get_outbox(amount=amount)
+def get_in_out_boxes(chunk_size=50):
+    offset = 0
+    in_notes, in_total = flist.notes.get_inbox(offset=offset, amount=chunk_size)
+    while len(in_notes) < in_total:
+        offset += chunk_size
+        notes, _ = flist.notes.get_inbox(offset=offset, amount=chunk_size)
+        in_notes += notes
+    
+    offset = 0
+    out_notes, out_total = flist.notes.get_outbox(offset=offset, amount=chunk_size)
+    while len(out_notes) < out_total:
+        offset += chunk_size
+        notes, _ = flist.notes.get_outbox(offset=offset, amount=chunk_size)
+        out_notes += notes
 
     return in_notes, out_notes
 
@@ -59,7 +70,7 @@ def load() -> dict:
         print(e)
 
 
-def save_conversations(conversation:list, filename:str):
+def save_conversation(conversation:list, filename:str):
     # write content of list to file
     with open(f'{config.CONVERSATIONS_PATH}/{filename}', 'w') as f:
         for note in conversation:
