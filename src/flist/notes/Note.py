@@ -16,7 +16,7 @@ class Note:
         return flist.notes.get_note_text(self.note_id)
     
     def note(self):
-        note = f"\n{self}:\n"
+        note = f"\ntitle: {self.title}\nform: {self.sender} to: {self.receiver}\ndate: {self.date}\n"
         note += "-------------------------------------------\n"
         note += flist.notes.get_note_text(self.note_id) + "\n"
         note += "-------------------------------------------\n\n"
