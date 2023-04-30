@@ -2,14 +2,14 @@ import flist
 import pathlib
 import config
 import pickle
+from .Conversation import Conversation
 
 
 def add_to_dict(_dict:dict, key:str, value):
     if key not in _dict:
-        _dict[key] = []
+        _dict[key] = Conversation(key)
 
-    if value not in _dict[key]:
-        _dict[key].append(value)
+    _dict[key].append(value, sort=False)
 
 
 def get_in_out_boxes(chunk_size=50):
@@ -19,7 +19,7 @@ def get_in_out_boxes(chunk_size=50):
         offset += chunk_size
         notes, _ = flist.notes.get_inbox(offset=offset, amount=chunk_size)
         in_notes += notes
-    
+
     offset = 0
     out_notes, out_total = flist.notes.get_outbox(offset=offset, amount=chunk_size)
     while len(out_notes) < out_total:
@@ -46,7 +46,8 @@ def conversations(in_notes, out_notes):
 
     for key, value in all_conversations.items():
         # print(key, len(value))
-        all_conversations[key] = sorted(value, key=lambda n: n.note_id)
+        # all_conversations[key] = sorted(value, key=lambda n: n.note_id)
+        all_conversations[key].sort()
 
     save(all_conversations)
 

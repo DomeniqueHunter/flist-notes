@@ -16,7 +16,7 @@ class Note:
         return flist.notes.get_note_text(self.note_id)
     
     def note(self):
-        note = f"\n{self}\n"
+        note = f"\n{self}:\n"
         note += "-------------------------------------------\n"
         note += flist.notes.get_note_text(self.note_id) + "\n"
         note += "-------------------------------------------\n\n"
