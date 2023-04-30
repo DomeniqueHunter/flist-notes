@@ -61,7 +61,7 @@ def load() -> dict:
 
 def save_conversations(conversation:list, filename:str):
     # write content of list to file
-    with open(filename, 'w') as f:
+    with open(f'{config.CONVERSATIONS_PATH}/{filename}', 'w') as f:
         for note in conversation:
             f.write(note.note())
 
