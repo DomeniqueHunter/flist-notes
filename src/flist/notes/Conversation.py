@@ -10,19 +10,15 @@ class Conversation:
         self.conversation = conv if conv else []
         self.label = label
         
-        self.deleted = False
-        
     def sort(self):
         self.conversation.sort(key=lambda x: x.note_id, reverse=False)
         
     def delete(self):
-        if not self.deleted:
-            flist.notes.delete_note([n.note_id for n in self.conversation])
-            self.deleted = True
+        flist.notes.delete_note([n.note_id for n in self.conversation if not n.flag_deleted()])
             
-    def show(self, all=False):
+    def show(self, _all=False):
         for note in self.conversation:
-            if all:
+            if _all:
                 print(note.note())
             else:
                 print(note)

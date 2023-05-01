@@ -31,9 +31,9 @@ def get_in_out_boxes(chunk_size=50):
 
 
 def conversations(in_notes, out_notes):
-    loaded_conversations = load()
+    loaded_conversations = load_conversations()
 
-    all_conversations = loaded_conversations if loaded_conversations else {}  # load if file exists
+    all_conversations = loaded_conversations if loaded_conversations else {}  # load_conversations if file exists
     print(len(all_conversations), 'conversations')
 
     for note in in_notes:
@@ -49,12 +49,12 @@ def conversations(in_notes, out_notes):
         # all_conversations[key] = sorted(value, key=lambda n: n.note_id)
         all_conversations[key].sort()
 
-    save(all_conversations)
+    save_conversations(all_conversations)
 
     return all_conversations
 
 
-def save(data:dict):
+def save_conversations(data:dict):
     if data and len(data) > 0:
         pathlib.Path(config.CONVERSATIONS_PATH).mkdir(parents=True, exist_ok=True)
 
@@ -62,7 +62,7 @@ def save(data:dict):
             pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def load() -> dict:
+def load_conversations() -> dict:
     try:
         with open(f'{config.CONVERSATIONS_PATH}/conv.pickle', 'rb') as handle:
             conv = pickle.load(handle)

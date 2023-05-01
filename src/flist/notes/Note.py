@@ -1,4 +1,5 @@
 import flist
+from flist.time.time import ftime
 
 
 class Note:
@@ -10,20 +11,38 @@ class Note:
         self.receiver = receiver
         
         self.folder = folder
-        self.date = date
+        self.date = ftime(date)
         
-    def show(self):
-        return flist.notes.get_note_text(self.note_id)
+        self.text = None
+        self.deleted_on_server = False
+        
+    def show(self, force_dl=False):
+        if not self.text or force_dl:
+            print(f'downloading note text {self.note_id}')
+            self.text = flist.notes.get_note_text(self.note_id) 
+        
+        return self.text
     
     def note(self):
         note = f"\ntitle: {self.title}\nform: {self.sender} to: {self.receiver}\ndate: {self.date}\n"
         note += "-------------------------------------------\n"
-        note += flist.notes.get_note_text(self.note_id) + "\n"
+        note += self.show() + "\n"
         note += "-------------------------------------------\n\n"
         return note
     
     def delete(self):
-        return flist.notes.delete_note([self.note_id])
+        if not self.deleted_on_server:
+            self.deleted_on_server = True
+            return flist.notes.delete_note([self.note_id])
+        return None
+    
+    def flag_deleted(self):
+        if not self.deleted_on_server:
+            self.deleted_on_server = True
+            return False
+        
+        return self.deleted_on_server
+            
     
     def reply(self, message:str):
         return flist.notes.send_note(self.sender, self.receiver, f"re:{self.title}", message)
