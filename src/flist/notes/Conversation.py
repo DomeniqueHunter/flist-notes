@@ -31,7 +31,8 @@ class Conversation:
             self.sort()
             
     def save(self):
-        flist.notes.converstaion.save_conversation(self.conversation, self.label)
+        # obsolete?
+        pass
             
     def __len__(self):
         return len(self.conversation)

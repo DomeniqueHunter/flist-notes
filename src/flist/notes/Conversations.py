@@ -35,7 +35,7 @@ class Conversations:
     
             with open(f'{config.CONVERSATIONS_PATH}/conv.pickle', 'wb') as handle:
                 pickle.dump(self.all_conversations, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        
+    
     def save_conversation(self, key:str, filename:str):
         if key in self.all_conversations:
             with open(f'{config.CONVERSATIONS_PATH}/{filename}', 'w') as f:
@@ -77,10 +77,8 @@ class Conversations:
             key = f'{note.receiver.lower()}_{note.sender.lower()}'
             self.add_to_dict(key, note)
     
-        for key, value in self.all_conversations.items():
-            # print(key, len(value))
-            # all_conversations[key] = sorted(value, key=lambda n: n.note_id)
-            self.all_conversations[key].sort()
+        for value in self.all_conversations.values():
+            value.sort()
     
         self.save()
     
