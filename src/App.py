@@ -15,13 +15,13 @@ def notes():
             break
         
         if cmd == '1':
-            inbox_notes = flist.notes.get_inbox()
+            inbox_notes, _ = flist.notes.get_inbox()
             for note in inbox_notes:
                 print(note)
             print()
             
         if cmd == '2':
-            outbox_notes = flist.notes.get_outbox()
+            outbox_notes, _ = flist.notes.get_outbox()
             for note in outbox_notes:
                 print(note)
             print()
