@@ -38,6 +38,7 @@ def get_character(character_name:str):
 
     session = flist.session()
     request = session.get(url)
+
     soup = BeautifulSoup(request.text, 'html.parser')
     try:
         charname = soup.find('span', {'class', 'charname'}).text
@@ -49,6 +50,8 @@ def get_character(character_name:str):
         for key, value in found:
             _key = key.lower().replace(' ', '_')
             character.set_attribute(_key, value)
+        
+        character.set_attribute("id", request.cookies["account_default_character_id"])
 
         found = _get_tab_info(soup, 'infodatabox')
         for key, value in found:
@@ -59,6 +62,7 @@ def get_character(character_name:str):
 
     # todo: kinks
 
-    except:
+    except Exception as e:
+        print(f"Exception: {e}")
         return None
 
