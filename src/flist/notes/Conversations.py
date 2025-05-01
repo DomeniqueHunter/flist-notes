@@ -8,8 +8,8 @@ from .Conversation import Conversation
 
 class Conversations:
 
-    def __init__(self, conversation_root_path):
-        self.conversation_root_path = conversation_root_path
+    def __init__(self, conversation_root_path=None):
+        self.conversation_root_path = conversation_root_path  # why?
         self.session = flist.session()
 
         self.all_conversations = self.load()
@@ -22,7 +22,7 @@ class Conversations:
 
     def load(self):
         try:
-            with open(f'{self.conversation_root_path}/conv.pickle', 'rb') as handle:
+            with open(f'{config.CONVERSATIONS_PATH}/conv.pickle', 'rb') as handle:
                 conv = pickle.load(handle)
                 return conv
 
@@ -37,7 +37,7 @@ class Conversations:
         if self.all_conversations and len(self.all_conversations) > 0:
             pathlib.Path(config.CONVERSATIONS_PATH).mkdir(parents=True, exist_ok=True)
 
-            with open(f'{self.conversation_root_path}/conv.pickle', 'wb') as handle:
+            with open(f'{config.CONVERSATIONS_PATH}/conv.pickle', 'wb') as handle:
                 pickle.dump(self.all_conversations, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def save_conversation(self, key:str, filename:str):
@@ -78,13 +78,17 @@ class Conversations:
         gets all notes from server and creates conversations
         """
         in_notes, out_notes = self.get_in_out_boxes(chunk_size=25)
-
+        
         for note in in_notes:
-            key = f'{note.sender.lower()}_{note.receiver.lower()}'
+            sender = note.sender.lower().replace(" ", "_")
+            receiver = note.receiver.lower().replace(" ", "_")
+            key = f'{sender}_{receiver}'
             self.add_to_dict(key, note)
 
-        for note in out_notes:
-            key = f'{note.receiver.lower()}_{note.sender.lower()}'
+        for note in out_notes:  #
+            sender = note.sender.lower().replace(" ", "_")
+            receiver = note.receiver.lower().replace(" ", "_")
+            key = f'{receiver}_{sender}'
             self.add_to_dict(key, note)
 
         for value in self.all_conversations.values():

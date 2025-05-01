@@ -34,6 +34,7 @@ def notes():
             except:
                 pass
 
+
 def main():
     
     # login
@@ -56,6 +57,23 @@ def main():
             notes()
             
         print(cmd)
+
+
+def test():
+    # login
+    request = flist.login.login(config.USER, config.PASSWORD)
     
+    # get characters    
+    flist.characters.characters.find_characters(request.content.decode('utf-8'))
+    
+    conv = flist.notes.Conversations()
+    conv.get_in_out_boxes()
+    conv.save()
+    
+    for i, conversation in enumerate(conv.parse_conversations()):
+        print(i, conversation)
+
+  
 if __name__ == "__main__":
-    main()
+    # main()
+    test()
