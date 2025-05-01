@@ -63,6 +63,9 @@ def test():
     # login
     request = flist.login.login(config.USER, config.PASSWORD)
     
+    # test char..
+    chr = flist.characters.get_character("")
+    
     # get characters    
     flist.characters.characters.find_characters(request.content.decode('utf-8'))
     

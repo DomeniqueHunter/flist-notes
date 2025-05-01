@@ -34,6 +34,9 @@ def _get_kinks(soup, box:str):
 
 
 def get_character(character_name:str):
+    if not character_name:
+        return None
+    
     url = f'https://www.f-list.net/c/{character_name}'
 
     session = flist.session()
