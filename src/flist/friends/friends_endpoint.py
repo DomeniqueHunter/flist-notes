@@ -3,14 +3,6 @@ from bs4 import BeautifulSoup
 import flist
 
 
-def send_friend_request():
-    pass
-
-
-def get_friend_requests():
-    pass
-
-
 def get_friend_list(character:str) -> list:
     session = flist.session()
     char = flist.characters.get_character(character)
@@ -30,6 +22,32 @@ def get_friend_list(character:str) -> list:
     response = session.post('https://www.f-list.net/json/profile-friends.json', headers=headers, data=data) 
     
     return response.json()["friends"]
+
+
+def send_friend_request():
+    pass
+
+
+def get_friend_requests():
+    session = flist.session()
+    
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "Host": "www.f-list.net",
+        }
+    
+    data = {
+        "account": flist.login.account(),
+        "ticket": flist.login.ticket()
+        }
+    
+    response = session.post('https://www.f-list.net/json/api/request-list.php', headers=headers, data=data)
+    
+    print(response.json()["requests"])
+    
+    return response.json()["requests"]
 
 
 def accept_friend_request():

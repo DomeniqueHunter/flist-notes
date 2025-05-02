@@ -3,7 +3,7 @@ import re
 characters = {}
 
 def find_characters(html):
-    m = re.search('<script>var characterdata = (.+);', html)
+    m = re.search(r'<script>var characterdata = (.+);', html)
     characters_raw = eval(m.group(1))
     characters_swap = {v: k for k, v in characters_raw.items()}
     

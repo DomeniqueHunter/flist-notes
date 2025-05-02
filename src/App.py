@@ -62,9 +62,13 @@ def main():
 def test():
     # login
     request = flist.login.login(config.USER, config.PASSWORD)
-    
+    # flist.login.get_ticket(config.USER, config.PASSWORD)
     # test char..
     chr = flist.characters.get_character("")
+    
+    # test friendrequests
+    fr = flist.friends.get_friend_requests()
+    exit()
     
     # get characters    
     flist.characters.characters.find_characters(request.content.decode('utf-8'))
