@@ -64,10 +64,14 @@ def test():
     request = flist.login.login(config.USER, config.PASSWORD)
     # flist.login.get_ticket(config.USER, config.PASSWORD)
     # test char..
-    chr = flist.characters.get_character("")
+    character = flist.characters.get_character("")
     
     # test friendrequests
-    fr = flist.friends.get_friend_requests()
+    friend_requests = flist.friends.get_friend_requests()
+    print(friend_requests)
+    
+    code = flist.friends.accept(request_id=1234)
+    
     exit()
     
     # get characters    

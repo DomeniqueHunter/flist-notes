@@ -28,7 +28,7 @@ def send_friend_request():
     pass
 
 
-def get_friend_requests():
+def get_friend_requests() -> list:
     session = flist.session()
     
     headers = {
@@ -45,13 +45,28 @@ def get_friend_requests():
     
     response = session.post('https://www.f-list.net/json/api/request-list.php', headers=headers, data=data)
     
-    print(response.json()["requests"])
-    
     return response.json()["requests"]
 
 
-def accept_friend_request():
-    pass
+def accept_friend_request(request_id:int):
+    session = flist.session()
+    
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "Host": "www.f-list.net",
+        }
+    
+    data = {
+        "account": flist.login.account(),
+        "ticket": flist.login.ticket(),
+        'request_id': request_id
+        }
+    
+    response = session.post('https://www.f-list.net/json/api/request-accept.php', headers=headers, data=data)
+    print(response.json())
+    return response.status_code
 
 
 def decline_friend_requst():
