@@ -63,6 +63,7 @@ def test():
     # login
     request = flist.login.login(config.USER, config.PASSWORD)
     # flist.login.get_ticket(config.USER, config.PASSWORD)
+    
     # test char..
     character = flist.characters.get_character("")
     
@@ -70,7 +71,9 @@ def test():
     friend_requests = flist.friends.get_friend_requests()
     print(friend_requests)
     
-    code = flist.friends.accept(request_id=1234)
+    # code = flist.friends.accept(request_id=1234)
+    # code = flist.friends.deny(request_id=4321)
+    # flist.friends.send("you", "other")    
     
     exit()
     

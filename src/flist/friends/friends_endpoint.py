@@ -24,8 +24,26 @@ def get_friend_list(character:str) -> list:
     return response.json()["friends"]
 
 
-def send_friend_request():
-    pass
+def send_friend_request(source_character:str, target_character:str):
+    session = flist.session()
+    
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "Host": "www.f-list.net",
+        }
+    
+    data = {
+        "account": flist.login.account(),
+        "ticket": flist.login.ticket(),
+        "source": source_character, 
+        "target": target_character,
+        }
+    
+    response = session.post('https://www.f-list.net/json/api/request-send2.php', headers=headers, data=data)
+    
+    return response.json()
 
 
 def get_friend_requests() -> list:
@@ -65,12 +83,27 @@ def accept_friend_request(request_id:int):
         }
     
     response = session.post('https://www.f-list.net/json/api/request-accept.php', headers=headers, data=data)
-    print(response.json())
     return response.status_code
 
 
-def decline_friend_requst():
-    pass
+def deny_friend_requst(request_id:int):
+    session = flist.session()
+    
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "Host": "www.f-list.net",
+        }
+    
+    data = {
+        "account": flist.login.account(),
+        "ticket": flist.login.ticket(),
+        'request_id': request_id
+        }
+    
+    response = session.post('https://www.f-list.net/json/api/request-deny.php', headers=headers, data=data)
+    return response.status_code
 
 
 def test():
