@@ -42,7 +42,7 @@ def main():
     
     # get characters    
     flist.characters.characters.find_characters(request.content.decode('utf-8'))
-    
+    exit()
     print('h: help\nq: quit')
     while True:
         cmd = input('> ')
@@ -62,7 +62,8 @@ def main():
 def test():
     # login
     request = flist.login.login(config.USER, config.PASSWORD)
-    # flist.login.get_ticket(config.USER, config.PASSWORD)
+    t = flist.login.get_ticket()
+    print(t)
     
     # test char..
     character = flist.characters.get_character("")

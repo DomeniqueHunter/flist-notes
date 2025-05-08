@@ -6,12 +6,22 @@ _session = None
 _ticket = None
 _account = None
 _password = None
+_proxies = {}
 
 
-def login(username, password): 
-    request = requests.get('https://www.f-list.net')
+def login(username:str, password:str, proxies:dict={}):
+    global _session, _account, _password, _proxie
+    _account = username
+    _password = password
+    _session = _session or requests.Session()
+    _proxies = _proxies or proxies
     
-    soup = BeautifulSoup(request.text, 'html.parser')
+    if proxies:
+        _session.proxies.update(_proxies)
+        
+    index_response = _session.get('https://www.f-list.net')
+    
+    soup = BeautifulSoup(index_response.text, 'html.parser')
     
     # get csrf
     csrf_token = soup.find('input', {'name': 'csrf_token'})['value']    
@@ -19,28 +29,21 @@ def login(username, password):
     # login payload
     payload = {'csrf_token': csrf_token, 'username': username, 'password': password}
     
-    global _session, _account, _password
-    _account = username
-    _password = password
-    _session = requests.session()
-    # _session.headers.update({"User-Agent" : config.USER_AGENT})
-    
     response = _session.post('https://www.f-list.net/action/script_login.php', data=payload)
     
     return response
 
 
-def get_ticket(username:str, password:str):
-    payload = {"account": username, "password": password}
-    response = requests.post("https://www.f-list.net/json/getApiTicket.php", data=payload)
-    ticket = response.json()["ticket"]
-    
+def get_ticket(username:str="", password:str=""):
     global _ticket, _account, _password
-    _account = username
-    _password = password
-    _ticket = ticket
+    _account = _account or username
+    _password = _password or password
     
-    return ticket
+    payload = {"account": username, "password": password}
+    response = _session.post("https://www.f-list.net/json/getApiTicket.php", data=payload)
+    _ticket = response.json()["ticket"]
+    
+    return _ticket
 
 
 def account():
