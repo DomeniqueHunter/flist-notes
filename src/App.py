@@ -67,6 +67,7 @@ def test():
     
     # test char..
     character = flist.characters.get_character("")
+    print(character)
     
     # test friendrequests
     friend_requests = flist.friends.get_friend_requests()
@@ -76,12 +77,10 @@ def test():
     # code = flist.friends.deny(request_id=4321)
     # flist.friends.send("you", "other")    
     
-    exit()
-    
     # get characters    
     flist.characters.characters.find_characters(request.content.decode('utf-8'))
     
-    conv = flist.notes.Conversations()
+    conv = flist.notes.Conversations(conversation_root_path=config.CONVERSATIONS_PATH)
     conv.get_in_out_boxes()
     conv.save()
     

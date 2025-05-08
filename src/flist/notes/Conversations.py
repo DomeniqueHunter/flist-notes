@@ -1,7 +1,6 @@
 
 import flist
 import pathlib
-import config
 import pickle
 from .Conversation import Conversation
 
@@ -9,7 +8,7 @@ from .Conversation import Conversation
 class Conversations:
 
     def __init__(self, conversation_root_path=None):
-        self.conversation_root_path = conversation_root_path  # why?
+        self.conversation_root_path = conversation_root_path
         self.session = flist.session()
 
         self.all_conversations = self.load()
@@ -22,7 +21,7 @@ class Conversations:
 
     def load(self):
         try:
-            with open(f'{config.CONVERSATIONS_PATH}/conv.pickle', 'rb') as handle:
+            with open(f'{self.conversation_root_path}/conv-{flist.login.account().lower()}.pickle', 'rb') as handle:
                 conv = pickle.load(handle)
                 return conv
 
@@ -35,9 +34,9 @@ class Conversations:
         saves all Conversations in one pickle file.
         """
         if self.all_conversations and len(self.all_conversations) > 0:
-            pathlib.Path(config.CONVERSATIONS_PATH).mkdir(parents=True, exist_ok=True)
+            pathlib.Path(self.conversation_root_path).mkdir(parents=True, exist_ok=True)
 
-            with open(f'{config.CONVERSATIONS_PATH}/conv.pickle', 'wb') as handle:
+            with open(f'{self.conversation_root_path}/conv-{flist.login.account().lower()}.pickle', 'wb') as handle:
                 pickle.dump(self.all_conversations, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def save_conversation(self, key:str, filename:str):
