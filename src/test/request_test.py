@@ -13,7 +13,7 @@ def send_request(url:str, proxies:dict={}):
     if not _proxies:
         _proxies = proxies
         
-    _session.proxies = _proxies
+    _session.proxies.update(_proxies)
     
     response = _session.get(url, timeout=10)
     
@@ -32,8 +32,6 @@ def test():
     
     resp = send_request(url)
     print(resp)
-    
-    
     
     
 if __name__ == "__main__":
