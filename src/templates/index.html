@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Web UI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="nav">
+        {% for item in nav_items %}
+            <div class="nav-item"><a href="{{ item.lower() }}">{{ item }}</a></div>
+        {% endfor %}
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            {{ content | safe }}
+        </div>
+        
+        {% if bottom_content %}
+        <div class="bottom">
+            {{ bottom_content | safe }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

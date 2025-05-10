@@ -47,6 +47,9 @@ class Conversations:
             with open(f'{self.conversation_root_path}/{filename}', 'w') as f:
                 for note in self.all_conversations[key].conversation:
                     f.write(note.note())
+                    
+    def keys(self):
+        return self.all_conversations.keys()
 
     def get_conv(self, key):
         if key in self.all_conversations:

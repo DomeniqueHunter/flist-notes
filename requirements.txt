@@ -2,3 +2,4 @@ beautifulsoup4
 requests
 requests[socks]
 python-dateutil
+Flask

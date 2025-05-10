@@ -30,6 +30,17 @@ class Note:
         note += "-------------------------------------------\n\n"
         return note
     
+    def html(self):
+        data = f'''<div class="note">
+                        <div class="note-info">
+                            <div>{self.date} {self.sender} -> {self.receiver}</div>
+                            <div class="note-title">{self.title}</div>
+                        </div>
+                    <div class="note-content">{self.show()}</div>
+                  </div>
+                '''
+        return data
+    
     def delete(self):
         if not self.deleted_on_server:
             self.deleted_on_server = True

@@ -20,6 +20,13 @@ class Conversation:
                 print(note.note())
             else:
                 print(note)
+                
+    def html(self):
+        html_str = ""
+        for note in self.conversation:
+            html_str += note.html()
+        
+        return html_str
 
     def append(self, note:Note, sort=True):
         if isinstance(note, Note) and note not in self.conversation:
